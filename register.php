@@ -47,7 +47,6 @@ include "config.php";
 
             }
         }
-        echo "fooooooooooooooS";
     }
     // login
 
