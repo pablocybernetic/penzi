@@ -24,14 +24,14 @@ include "config.php";
                 header ("Location: index.php?message=Registration failed");
             }
         } else {
-            echo "<script>alert('Password does not match');</script>";
+            header ("Location: index.php?message=Registration failed");
         }
     } else {
         echo "<script>alert('Please fill all the fields');</script>";
     }
     // ecode to json
     // login
-    if (isset($_POST['email']) && isset($_POST['password'])) {
+    if (isset($_POST['commit2'])) {
         $email = $_POST['email'];
         $password = $_POST['password'];
         $password = md5($password);
@@ -44,23 +44,11 @@ include "config.php";
                 $_SESSION['user_phone'] = $row['phone'];
                 $_SESSION['user_email'] = $row['email'];
                 $_SESSION['user_password'] = $row['password'];
-                $_SESSION['user_type'] = $row['type'];
-                $_SESSION['user_status'] = $row['status'];
-                $_SESSION['user_created_at'] = $row['created_at'];
-                $_SESSION['user_updated_at'] = $row['updated_at'];
-                $_SESSION['user_last_login'] = $row['last_login'];
-                $_SESSION['user_last_logout'] = $row['last_logout'];
-                $_SESSION['user_last_ip'] = $row['last_ip'];
-                $_SESSION['user_last_browser'] = $row['last_browser'];
-                $_SESSION['user_last_os'] = $row['last_os'];
-                $_SESSION['user_last_device'] = $row['last_device'];
-                $_SESSION['user_last_location'] = $row['last_location'];
-                $_SESSION['user_last_latitude'] = $row['last_latitude'];
-                $_SESSION['user_last_longitude'] = $row['last_longitude'];
-                $_SESSION['user_last_accuracy'] = $row['last_accuracy'];
+
             }
         }
+        echo "fooooooooooooooS";
     }
-    // end of login
+    // login
 
 ?>

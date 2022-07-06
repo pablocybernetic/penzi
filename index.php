@@ -1,3 +1,7 @@
+<?php 
+error_reporting(0);
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,6 +17,45 @@
 </head>
 
 <body>
+<style>
+    body{
+        font-family: Arail, sans-serif;
+    }
+    /* Formatting search box */
+    .search-box{
+        width: 300px;
+        position: relative;
+        display: inline-block;
+        font-size: 14px;
+    }
+    .search-box input[type="text"]{
+        height: 32px;
+        padding: 5px 10px;
+        border: 1px solid #CCCCCC;
+        font-size: 14px;
+    }
+    .result{
+        position: absolute;        
+        z-index: 999;
+        top: 100%;
+        left: 0;
+    }
+    .search-box input[type="text"], .result{
+        width: 100%;
+        box-sizing: border-box;
+    }
+    /* Formatting result items */
+    .result p{
+        margin: 0;
+        padding: 7px 10px;
+        border: 1px solid #CCCCCC;
+        border-top: none;
+        cursor: pointer;
+    }
+    .result p:hover{
+        background: #f2f2f2;
+    }
+</style>
 
     <nav class="navbar navbar-expand-sm navbar-dark bg-primary">
         <a class="navbar-brand" href="#">Penzi</a>
@@ -42,10 +85,35 @@
                 </li>
                 <?php } ?>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
+            <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+$(document).ready(function(){
+    $('.search-box input[type="text"]').on("keyup input", function(){
+        /* Get input value on change */
+        var inputVal = $(this).val();
+        var resultDropdown = $(this).siblings(".result");
+        if(inputVal.length){
+            $.get("search.php", {term: inputVal}).done(function(data){
+                // Display the returned data in browser
+                resultDropdown.html(data);
+            });
+        } else{
+            resultDropdown.empty();
+        }
+    });
+    
+    // Set search input value on click of result item
+    $(document).on("click", ".result p", function(){
+        $(this).parents(".search-box").find('input[type="text"]').val($(this).text());
+        $(this).parent(".result").empty();
+    });
+});
+</script>
+            <div class="search-box">
+        <input type="text" autocomplete="off" placeholder="Search Users..." />
+        <div class="result"></div>
+    </div>
+           
         </div>
     </nav>
     <div class="container">
@@ -70,7 +138,7 @@
     <button type="submit" name="commit" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#signup">
       Signup
     </button>
-    <!-- <div class="modal fade" id="login" role="dialog">
+    <div class="modal fade" id="login" role="dialog">
       <div class="modal-dialog modal-md">
         <div class="modal-content">
           <div class="modal-header">
@@ -78,13 +146,14 @@
             <button type="button" class="close" data-dismiss="modal">&times;</button>
           </div>
           <div class="modal-body">
+            <form action="register.php" method="post">
             <div class="input-group mb-3">
               <div class="input-group-prepend">
                 <span class="input-group-text" id="inputGroup-sizing-sm">
                   <i class="fa fa-envelope"></i>
                 </span>
               </div>
-              <input type="text" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1">
+              <input type="text" name="email2" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1">
             </div>
             <div class="input-group mb-3">
               <div class="input-group-prepend">
@@ -92,18 +161,20 @@
                   <i class="fa fa-lock"></i>
                 </span>
               </div>
-              <input type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1">
+              <input type="password" name="password2" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1">
             </div>
-            <button type="submit" name="commit" class="btn btn-primary btn-lg btn-block">
+            <button type="submit" name="commit2" class="btn btn-primary btn-lg btn-block">
               <span>Login <i class="fa fa-sign-in"></i></span>
             </button>
+            </form>
             <div class="text-center">
               <a class="" href="" data-dismiss="modal" data-toggle="modal" data-target="#signup">Signup</a>
             </div>
+            
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
     <div class="modal fade" id="signup" role="dialog">
       <div class="modal-dialog modal-md">
         <div class="modal-content">
